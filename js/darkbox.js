@@ -35,13 +35,13 @@
 		<div id="darkbox">
 		</div>
 		<div id="darkbox-left">
-			<img src="../assets/darkbox/left.svg" alt=""/>
+			<img src="./assets/darkbox/left.svg" alt=""/>
 		</div>
 		<div id="darkbox-right">
-			<img src="../assets/darkbox/right.svg" alt=""/>
+			<img src="./assets/darkbox/right.svg" alt=""/>
 		</div>
 		<div id="darkbox-cancel">
-			<img src="../assets/darkbox/close.svg" alt=""/>
+			<img src="./assets/darkbox/close.svg" alt=""/>
 		</div>
 		<div id="darkbox-title">
 			<h1 id="darkboxTitleText"></h1>

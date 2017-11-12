@@ -21,14 +21,14 @@ Darkbox is a minimalistic, dynamic, content-first javascript library used to ove
 
 ```html
 <div>
-	<img id="gallery" src="./assets/image.jpg" alt="" />
+  <img id="gallery" src="./assets/image.jpg" alt="" />
 </div>
 ```
 
 ```css
 img {
-	width: 100%;
-	height: auto;
+  width: 100%;
+  height: auto;
 }
 ```
 
@@ -37,18 +37,18 @@ img {
 ```javascript
 $(document).ready(function () {
 
-	$('#gallery').click(function() 
-	{
-		darkbox.start( 
-			$('#gallery'), 
-			{
-				images: [
-					"./assets/image.jpg",
-					"./assets/image2.jpg",
-				]
-			}
-		);
-	});
+  $('#gallery').click(function() 
+  {
+    darkbox.start( 
+      $('#gallery'), 
+      {
+        images: [
+          "./assets/image.jpg",
+          "./assets/image2.jpg",
+        ]
+      }
+    );
+  });
 
 });
 ```

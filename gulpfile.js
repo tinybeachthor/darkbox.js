@@ -39,7 +39,8 @@ gulp.task('js', ['clear'], function () {
 // ASSETS
 gulp.task('assets', ['clear'], function () {
     return gulp.src('./assets/darkbox/**/*')
-        .pipe(gulp.dest('./dist/assets/darkbox/'));
+        .pipe(gulp.dest('./dist/assets/darkbox/'))
+        .pipe(gulp.dest('./example/assets/darkbox/'));
 });
 
 // DEFAULT

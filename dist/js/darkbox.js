@@ -33,7 +33,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 	DarkboxBuilder.prototype.build = function () {
 		//add elements to DOM
-		var elems = '<div id="darkboxOverlay">\n\t\t</div>\n\t\t\n\t\t<div id="darkbox">\n\t\t</div>\n\t\t<div id="darkbox-left">\n\t\t\t<img src="../assets/darkbox/left.svg" alt=""/>\n\t\t</div>\n\t\t<div id="darkbox-right">\n\t\t\t<img src="../assets/darkbox/right.svg" alt=""/>\n\t\t</div>\n\t\t<div id="darkbox-cancel">\n\t\t\t<img src="../assets/darkbox/close.svg" alt=""/>\n\t\t</div>\n\t\t<div id="darkbox-title">\n\t\t\t<h1 id="darkboxTitleText"></h1>\n\t\t</div>';
+		var elems = '<div id="darkboxOverlay">\n\t\t</div>\n\t\t\n\t\t<div id="darkbox">\n\t\t</div>\n\t\t<div id="darkbox-left">\n\t\t\t<img src="./assets/darkbox/left.svg" alt=""/>\n\t\t</div>\n\t\t<div id="darkbox-right">\n\t\t\t<img src="./assets/darkbox/right.svg" alt=""/>\n\t\t</div>\n\t\t<div id="darkbox-cancel">\n\t\t\t<img src="./assets/darkbox/close.svg" alt=""/>\n\t\t</div>\n\t\t<div id="darkbox-title">\n\t\t\t<h1 id="darkboxTitleText"></h1>\n\t\t</div>';
 
 		$(elems).appendTo($('body'));
 	};
