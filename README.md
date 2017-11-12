@@ -6,7 +6,7 @@ Darkbox is a minimalistic, dynamic, content-first javascript library used to ove
 
 ## Usage
 
-1. Copy files from [/dist](https://github.com/WhoMeNope/darkbox.js/dist) to your project.
+1. Copy files from [/dist](https://github.com/WhoMeNope/darkbox.js/tree/master/dist) to your project.
 
 2. Include darkbox in your website
 
@@ -55,7 +55,7 @@ $(document).ready(function () {
 
 ## Examples 
 
-See the [/example](https://github.com/WhoMeNope/darkbox.js/example) folder.
+See the [/example](https://github.com/WhoMeNope/darkbox.js/tree/master/example) folder.
 
 ## License
 
