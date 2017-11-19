@@ -1,6 +1,10 @@
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 (function (root, factory) {
 	if (typeof define === 'function' && define.amd) {
@@ -20,27 +24,34 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	//////////////////////////////////
 	//DARKBOX BUILDER OBJECT
 
-	function DarkboxBuilder() {
-		this.init();
-	}
+	var DarkboxBuilder = function () {
+		function DarkboxBuilder() {
+			var _this = this;
 
-	DarkboxBuilder.prototype.init = function () {
-		var _this = this;
+			_classCallCheck(this, DarkboxBuilder);
 
-		$(document).ready(function () {
-			_this.build();
-		});
-	};
-	DarkboxBuilder.prototype.build = function () {
-		//add elements to DOM
-		var elems = '<div id="darkboxOverlay">\n\t\t</div>\n\t\t\n\t\t<div id="darkbox">\n\t\t</div>\n\t\t<div id="darkbox-left">\n\t\t\t<img src="./assets/darkbox/left.svg" alt=""/>\n\t\t</div>\n\t\t<div id="darkbox-right">\n\t\t\t<img src="./assets/darkbox/right.svg" alt=""/>\n\t\t</div>\n\t\t<div id="darkbox-cancel">\n\t\t\t<img src="./assets/darkbox/close.svg" alt=""/>\n\t\t</div>\n\t\t<div id="darkbox-title">\n\t\t\t<h1 id="darkboxTitleText"></h1>\n\t\t</div>';
+			$(document).ready(function () {
+				_this.build();
+			});
+		}
 
-		$(elems).appendTo($('body'));
-	};
+		_createClass(DarkboxBuilder, [{
+			key: 'build',
+			value: function build() {
+				//add elements to DOM
+				var elems = '<div id="darkboxOverlay">\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t<div id="darkbox">\n\t\t\t\t</div>\n\t\t\t\t<div id="darkbox-left">\n\t\t\t\t\t<img src="./assets/darkbox/left.svg" alt=""/>\n\t\t\t\t</div>\n\t\t\t\t<div id="darkbox-right">\n\t\t\t\t\t<img src="./assets/darkbox/right.svg" alt=""/>\n\t\t\t\t</div>\n\t\t\t\t<div id="darkbox-cancel">\n\t\t\t\t\t<img src="./assets/darkbox/close.svg" alt=""/>\n\t\t\t\t</div>\n\t\t\t\t<div id="darkbox-title">\n\t\t\t\t\t<h1 id="darkboxTitleText"></h1>\n\t\t\t\t</div>';
 
-	DarkboxBuilder.prototype.start = function ($elem, options) {
-		return new Darkbox($elem, options);
-	};
+				$(elems).appendTo($('body'));
+			}
+		}, {
+			key: 'start',
+			value: function start($elem, options) {
+				return new Darkbox($elem, options);
+			}
+		}]);
+
+		return DarkboxBuilder;
+	}();
 
 	//////////////////////////////////
 	//DARKBOX INSTANCE OBJECT
@@ -128,16 +139,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		this.$overlay.addClass('show');
 		this.$overlay.addClass('fill');
 
-		this.$darkboxLeft.show();
-		this.$darkboxRight.show();
+		if (this.options.images.length > 1) {
+			this.$darkboxLeft.show();
+			this.$darkboxRight.show();
+		}
 		this.$darkboxCancel.show();
 		this.$darkboxTitle.show();
 
 		$(this.$darkboxTitleText).text('Image ' + (this.currentImageIndex + 1) + ' of ' + this.options.images.length);
 
 		setTimeout(function () {
-			_this2.$darkboxLeft.addClass('show');
-			_this2.$darkboxRight.addClass('show');
+			if (_this2.options.images.length > 1) {
+				_this2.$darkboxLeft.addClass('show');
+				_this2.$darkboxRight.addClass('show');
+			}
 			_this2.$darkboxCancel.addClass('show');
 			_this2.$darkboxTitle.addClass('show');
 		}, 400);
@@ -147,7 +162,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		$(this.$clonnedNode).animate({
 			left: ($(window).width() - $link.width()) / 2,
 			top: ($(window).height() - $link.height()) / 2
-		}, 400, "swing", function () {
+		}, 400, 'swing', function () {
 			$(_this2.$clonnedNode).addClass('scale');
 
 			//display animation finished
@@ -232,7 +247,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		$(this.$clonnedNode).animate({
 			opacity: 0.0
-		}, 300, "swing", function () {
+		}, 300, 'swing', function () {
 			_this3.$darkbox.hide();
 
 			_this3.$darkboxLeft.hide();
