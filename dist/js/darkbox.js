@@ -1,57 +1,68 @@
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+/**
+ * Darkbox v1.0.6
+ * by WhoMeNope
+ *
+ * More info:
+ * https://github.com/WhoMeNope/darkbox.js
+ *
+ * Released under the MIT license
+ * https://github.com/WhoMeNope/darkbox.js/blob/master/LICENSE
+ * 
+ * @license
+ */
 
-(function (root, factory) {
+(function (factory) {
 	if (typeof define === 'function' && define.amd) {
 		// AMD. Register as an anonymous module.
 		define(['jquery'], factory);
-	} else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
-		// Node. Does not work with strict CommonJS, but
-		// only CommonJS-like environments that support module.exports,
-		// like Node.
-		module.exports = factory(require('jquery'));
+	} else if ((typeof module === 'undefined' ? 'undefined' : _typeof(module)) === 'object' && module.exports) {
+		// Node/CommonJS
+		module.exports = function (root, jQuery) {
+			if (jQuery === undefined) {
+				// require('jQuery') returns a factory that requires window to
+				// build a jQuery instance, we normalize how we use modules
+				// that require this pattern but the window provided is a noop
+				// if it's defined (how jquery works)
+				if (typeof window !== 'undefined') {
+					jQuery = require('jquery');
+				} else {
+					jQuery = require('jquery')(root);
+				}
+			}
+			factory(jQuery);
+			return jQuery;
+		};
 	} else {
-		// Browser globals (root is window)
+		// Browser globals
 		window.darkbox = factory(window.jQuery);
 	}
-})(undefined, function ($) {
+})(function ($) {
 
 	//////////////////////////////////
 	//DARKBOX BUILDER OBJECT
 
-	var DarkboxBuilder = function () {
-		function DarkboxBuilder() {
-			var _this = this;
+	function DarkboxBuilder() {
+		var _this = this;
 
-			_classCallCheck(this, DarkboxBuilder);
+		DarkboxBuilder.prototype.build = function () {
+			//add elements to DOM
+			var elems = '<div id="darkboxOverlay"></div>' + '<div id="darkbox"></div>' + '<div id="darkbox-left"><img src="./assets/darkbox/left.svg" alt=""/></div>' + '<div id="darkbox-right"><img src="./assets/darkbox/right.svg" alt=""/></div>' + '<div id="darkbox-cancel"><img src="./assets/darkbox/close.svg" alt=""/></div>' + '<div id="darkbox-title"><h1 id="darkboxTitleText"></h1></div>';
 
-			$(document).ready(function () {
-				_this.build();
-			});
-		}
+			$(elems).appendTo($('body'));
+		};
 
-		_createClass(DarkboxBuilder, [{
-			key: 'build',
-			value: function build() {
-				//add elements to DOM
-				var elems = '<div id="darkboxOverlay">\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t<div id="darkbox">\n\t\t\t\t</div>\n\t\t\t\t<div id="darkbox-left">\n\t\t\t\t\t<img src="./assets/darkbox/left.svg" alt=""/>\n\t\t\t\t</div>\n\t\t\t\t<div id="darkbox-right">\n\t\t\t\t\t<img src="./assets/darkbox/right.svg" alt=""/>\n\t\t\t\t</div>\n\t\t\t\t<div id="darkbox-cancel">\n\t\t\t\t\t<img src="./assets/darkbox/close.svg" alt=""/>\n\t\t\t\t</div>\n\t\t\t\t<div id="darkbox-title">\n\t\t\t\t\t<h1 id="darkboxTitleText"></h1>\n\t\t\t\t</div>';
+		DarkboxBuilder.prototype.start = function ($elem, options) {
+			return new Darkbox($elem, options);
+		};
 
-				$(elems).appendTo($('body'));
-			}
-		}, {
-			key: 'start',
-			value: function start($elem, options) {
-				return new Darkbox($elem, options);
-			}
-		}]);
-
-		return DarkboxBuilder;
-	}();
+		$(document).ready(function () {
+			_this.build();
+		});
+	}
 
 	//////////////////////////////////
 	//DARKBOX INSTANCE OBJECT
@@ -276,5 +287,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		}
 	};
 
-	return new DarkboxBuilder();
+	var dbBuilder = new DarkboxBuilder();
+	$.fn.darkbox = function (options) {
+		dbBuilder.start(this, options);
+	};
+	return dbBuilder;
 });

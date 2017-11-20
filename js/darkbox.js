@@ -1,55 +1,68 @@
-(function (root, factory) {
+/**
+ * Darkbox v1.0.6
+ * by WhoMeNope
+ *
+ * More info:
+ * https://github.com/WhoMeNope/darkbox.js
+ *
+ * Released under the MIT license
+ * https://github.com/WhoMeNope/darkbox.js/blob/master/LICENSE
+ * 
+ * @license
+ */
+
+(function (factory) {
 	if (typeof define === 'function' && define.amd) {
 		// AMD. Register as an anonymous module.
 		define(['jquery'], factory);
-	} else if (typeof exports === 'object') {
-		// Node. Does not work with strict CommonJS, but
-		// only CommonJS-like environments that support module.exports,
-		// like Node.
-		module.exports = factory(require('jquery'));
+	} else if (typeof module === 'object' && module.exports) {
+		// Node/CommonJS
+		module.exports = function (root, jQuery) {
+			if (jQuery === undefined) {
+				// require('jQuery') returns a factory that requires window to
+				// build a jQuery instance, we normalize how we use modules
+				// that require this pattern but the window provided is a noop
+				// if it's defined (how jquery works)
+				if (typeof window !== 'undefined') {
+					jQuery = require('jquery');
+				}
+				else {
+					jQuery = require('jquery')(root);
+				}
+			}
+			factory(jQuery);
+			return jQuery;
+		};
 	} else {
-		// Browser globals (root is window)
+		// Browser globals
 		window.darkbox = factory(window.jQuery);
 	}
-}(this, function ($) {
+}(function ($) {
 
-//////////////////////////////////
-//DARKBOX BUILDER OBJECT
+	//////////////////////////////////
+	//DARKBOX BUILDER OBJECT
 
-	class DarkboxBuilder {
-		constructor() {
-			$(document).ready(() => {
-				this.build();
-			});	
-		}
-
-		build() {
+	function DarkboxBuilder() {
+		DarkboxBuilder.prototype.build = function () {
 			//add elements to DOM
 			let elems =
-				`<div id="darkboxOverlay">
-				</div>
-				
-				<div id="darkbox">
-				</div>
-				<div id="darkbox-left">
-					<img src="./assets/darkbox/left.svg" alt=""/>
-				</div>
-				<div id="darkbox-right">
-					<img src="./assets/darkbox/right.svg" alt=""/>
-				</div>
-				<div id="darkbox-cancel">
-					<img src="./assets/darkbox/close.svg" alt=""/>
-				</div>
-				<div id="darkbox-title">
-					<h1 id="darkboxTitleText"></h1>
-				</div>`;
+				'<div id="darkboxOverlay"></div>' +
+				'<div id="darkbox"></div>' +
+				'<div id="darkbox-left"><img src="./assets/darkbox/left.svg" alt=""/></div>' +
+				'<div id="darkbox-right"><img src="./assets/darkbox/right.svg" alt=""/></div>' +
+				'<div id="darkbox-cancel"><img src="./assets/darkbox/close.svg" alt=""/></div>' +
+				'<div id="darkbox-title"><h1 id="darkboxTitleText"></h1></div>';
 
-			$(elems).appendTo( $('body') );
-		}
+			$(elems).appendTo($('body'));
+		};
 
-		start($elem, options) {
+		DarkboxBuilder.prototype.start = function ($elem, options) {
 			return new Darkbox($elem, options);
-		}
+		};
+
+		$(document).ready(() => {
+			this.build();
+		});	
 	}
 
 	//////////////////////////////////
@@ -281,5 +294,9 @@
 		}
 	};
 
-	return new DarkboxBuilder();
+	const dbBuilder = new DarkboxBuilder();
+	$.fn.darkbox = function (options) {
+		dbBuilder.start(this, options);
+	};
+	return dbBuilder;
 }));

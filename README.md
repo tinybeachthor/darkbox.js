@@ -1,8 +1,10 @@
 # darkbox.js
 
-An updated, minimal version of the [lighbox2](http://lokeshdhakar.com/projects/lightbox2/) script.
+Weights just ⚖**1.65kb Gzipped**
 
-Weights just ⚖**1.70kb Minified and Gzipped**
+##
+
+An updated, minimal version of the [lighbox2](http://lokeshdhakar.com/projects/lightbox2/) script.
 
 Darkbox is a minimalistic, dynamic, content-first javascript library used to overlay images on top of the current page. It's a snap to setup and works on all modern browsers.
 
@@ -41,8 +43,7 @@ $(document).ready(function () {
 
   $('#gallery').click(function() 
   {
-    darkbox.start( 
-      $('#gallery'), 
+    $(this).darkbox(
       {
         images: [
           "./assets/image.jpg",

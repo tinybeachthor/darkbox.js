@@ -49,10 +49,8 @@
 	<script type="text/javascript">
 		$(document).ready(function () 
 		{
-			$('#gallery').click(function () 
-			{
-				darkbox.start( 
-					$('#gallery'), 
+			$('#gallery').click(function () {
+				$(this).darkbox( 
 					{
 						images: [
 							"./assets/pexels-photo-193651.jpeg",

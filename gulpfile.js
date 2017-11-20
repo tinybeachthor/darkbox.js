@@ -1,10 +1,12 @@
 'use strict';
+/* eslint-disable */
 
 var gulp = require('gulp'),
     del = require('del'),
     autoprefixer = require('autoprefixer'),
     gulpLoadPlugins = require('gulp-load-plugins'),
-    plugins = gulpLoadPlugins();
+    plugins = gulpLoadPlugins(),
+    saveLicense = require('uglify-save-license');
 
 // CLEAR build folder
 gulp.task('clear', function() {
@@ -31,7 +33,11 @@ gulp.task('js', ['clear'], function () {
         .pipe(plugins.babel({presets: ['env']}))
         .pipe(gulp.dest('./dist/js/'))
 
-        .pipe(plugins.uglify())
+        .pipe(plugins.uglify({
+            output: {
+                comments: saveLicense
+            }
+        }))
         .pipe(plugins.rename({ suffix: '.min' }))
         .pipe(gulp.dest('./dist/js/'));
 });

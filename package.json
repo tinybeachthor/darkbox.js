@@ -1,8 +1,8 @@
 {
   "name": "darkbox.js",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "Minimalistic and dynamic image overlay javascript library.",
-  "author": "WhoMeNope <<whomenope@outlook.com>>",
+  "author": "WhoMeNope <whomenope@outlook.com>",
   "license": "MIT",
   "main": "./dist/js/darkbox.js",
   "scripts": {
@@ -22,6 +22,7 @@
     "gulp-postcss": "^7.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^3.0.0",
-    "precss": "^2.0.0"
+    "precss": "^2.0.0",
+    "uglify-save-license": "^0.4.1"
   }
 }
