@@ -1,6 +1,6 @@
 # darkbox.js
 
-Weights just ⚖**1.74kb Gzipped**
+Weights just ⚖**1.88kb Gzipped**
 
 An updated, minimal version of the [lighbox2](http://lokeshdhakar.com/projects/lightbox2/) script.
 
@@ -8,7 +8,7 @@ Darkbox is a minimalistic, dynamic, content-first javascript library used to ove
 
 ## Usage
 
-1. Copy files from [/dist](https://github.com/WhoMeNope/darkbox.js/tree/master/dist) to your project.
+1. Copy files from [/dist](https://github.com/WhoMeNope/darkbox.js/tree/master/dist) to your project
 
 2. Include darkbox in your website
 
@@ -47,6 +47,26 @@ $(document).ready(function () {
   });
 
 });
+```
+
+## Options
+
+These are the available options with their respective default values:
+
+```javascript
+options = {
+  startWithCurrent:     true,   // add/move the image on which this was started to the first position in image array
+  wrapAround:           false,  // after clicking next on the last picture wrap to the first
+
+  showProgressBar:      true,   // show progressbar on the top of images
+  showTitle:            false,  // show text with the current image number and the number of images
+
+  disablePageScrolling: true,   // disable page scrolling while darkbox is opened
+
+  endCallback:          null,   // function to be called on darkbox exit
+};
+
+$(this).darkbox(images, options);
 ```
 
 ## Examples 

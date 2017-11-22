@@ -199,6 +199,29 @@ body.db-disable-scrolling {
 #darkbox-title.show > h1 {
     bottom: 10px;
 }
+#darkbox-progress {
+    position: fixed;
+    z-index: 50020;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 2px;
+    -webkit-transform: translateZ(1000px);
+            transform: translateZ(1000px);
+    display: none;
+    background-image: -webkit-gradient(linear, left top, right top, from(#FDD835), to(#F4511E));
+    background-image: linear-gradient(to right, #FDD835, #F4511E);
+}
+#darkbox-progress > div {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #111;
+    -webkit-transition: left 0.8s ease-in-out;
+    transition: left 0.8s ease-in-out;
+}
 @media (min-width: 960px) {
     #darkbox>.straight.scale {
         height: 100% !important;

@@ -49,13 +49,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		DarkboxBuilder.prototype.build = function () {
 			//add elements to DOM
-			var elems = '<div id="darkboxOverlay"></div>' + '<div id="darkbox"></div>' + '<div id="darkbox-left"><img src="./assets/darkbox/left.svg" alt=""/></div>' + '<div id="darkbox-right"><img src="./assets/darkbox/right.svg" alt=""/></div>' + '<div id="darkbox-cancel"><img src="./assets/darkbox/close.svg" alt=""/></div>' + '<div id="darkbox-title"><h1 id="darkboxTitleText"></h1></div>';
+			var elems = '<div id="darkboxOverlay"></div>' + '<div id="darkbox"></div>' + '<div id="darkbox-left"><img src="./assets/darkbox/left.svg" alt=""/></div>' + '<div id="darkbox-right"><img src="./assets/darkbox/right.svg" alt=""/></div>' + '<div id="darkbox-cancel"><img src="./assets/darkbox/close.svg" alt=""/></div>' + '<div id="darkbox-title"><h1 id="darkboxTitleText"></h1></div>' + '<div id="darkbox-progress"><div></div></div>';
 
 			$(elems).appendTo($('body'));
 		};
 
 		DarkboxBuilder.prototype.start = function ($elem, images, options) {
-			return new Darkbox($elem, images, options);
+			new Darkbox($elem, images, options);
 		};
 
 		$(document).ready(function () {
@@ -82,6 +82,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		this.$darkboxRight = $('#darkbox-right');
 		this.$darkboxCancel = $('#darkbox-cancel');
 		this.$darkboxTitle = $('#darkbox-title');
+		this.$darkboxProgress = $('#darkbox-progress');
 
 		this.$darkboxTitleText = $('#darkboxTitleText');
 
@@ -109,14 +110,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		this.currentImageIndex = 0;
 		this.preloadNeighboringImages();
 
+		this.setProgress();
+
 		//start on element
 		if (this.images.length > 0) this.start($elem);
 	}
 
 	Darkbox.defaults = {
-		disablePageScrolling: true,
 		startWithCurrent: true,
 		wrapAround: false,
+
+		showProgressBar: true,
+		showTitle: false,
+
+		disablePageScrolling: true,
 
 		endCallback: null
 	};
@@ -163,7 +170,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			this.$darkboxRight.show();
 		}
 		this.$darkboxCancel.show();
-		this.$darkboxTitle.show();
+		if (this.options.showTitle) this.$darkboxTitle.show();
+		if (this.options.showProgressBar) this.$darkboxProgress.show();
 
 		$(this.$darkboxTitleText).text('Image ' + (this.currentImageIndex + 1) + ' of ' + this.images.length);
 
@@ -173,7 +181,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				_this2.$darkboxRight.addClass('show');
 			}
 			_this2.$darkboxCancel.addClass('show');
-			_this2.$darkboxTitle.addClass('show');
+			if (_this2.options.showTitle) _this2.$darkboxTitle.addClass('show');
 		}, 400);
 
 		//transition to center position
@@ -203,6 +211,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		});
 	};
 
+	Darkbox.prototype.setProgress = function () {
+		if (this.images.length < 2) $(this.$darkboxProgress).find('div').css('left', '0');else {
+			var progress = 1.0 - (this.images.length - this.currentImageIndex - 1) / (this.images.length - 1);
+			$(this.$darkboxProgress).find('div').css('left', '' + (progress * 100).toFixed(2) + '%');
+		}
+	};
+
 	Darkbox.prototype.previousImage = function () {
 		if (this.currentImageIndex !== 0) {
 			this.changeImage(this.currentImageIndex - 1);
@@ -220,6 +235,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	Darkbox.prototype.changeImage = function (index) {
 		this.currentImageIndex = index;
 		this.preloadNeighboringImages();
+		this.setProgress();
 
 		$(this.$darkboxTitleText).text('Image ' + (index + 1) + ' of ' + this.images.length);
 
@@ -276,6 +292,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		this.$darkboxRight.removeClass('show');
 		this.$darkboxCancel.removeClass('show');
 		this.$darkboxTitle.removeClass('show');
+
+		this.$darkboxProgress.hide();
 
 		$(this.$clonnedNode).animate({
 			opacity: 0.0
