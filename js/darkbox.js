@@ -5,10 +5,9 @@
  * More info:
  * https://github.com/WhoMeNope/darkbox.js
  *
+ * @license
  * Released under the MIT license
  * https://github.com/WhoMeNope/darkbox.js/blob/master/LICENSE
- * 
- * @license
  */
 
 (function (factory) {
@@ -86,7 +85,7 @@
 
 		this.$clonnedNode = null;
 
-		//resolve images, add current to first if needed
+		//move current to first if options.startWithCurrent is set
 		if(this.options.startWithCurrent) {
 			let current = $elem.attr('src');
 
@@ -94,11 +93,19 @@
 				this.options.images = [];
 			}
 			if(this.options.images.length == 0 || current !== this.options.images[0]) {
+				let i = 0;
+				for(let image in this.options.images) {
+					if(image == current) {
+						this.options.images.splice(i, 1);
+					}
+					i++;
+				}
 				this.options.images.unshift(current);
 			}
 		}
 
 		this.currentImageIndex = 0;
+		this.preloadNeighboringImages();
 
 		//start on element
 		if(this.options.images.length > 0)
@@ -214,10 +221,23 @@
 	};
 	Darkbox.prototype.changeImage = function (index) {
 		this.currentImageIndex = index;
+		this.preloadNeighboringImages();
 
 		$(this.$darkboxTitleText).text('Image ' + (index + 1) + ' of ' + this.options.images.length);
 
 		$(this.$clonnedNode).attr('src', this.options.images[index]);
+	};
+
+	// Preload previous and next images in set.
+	Darkbox.prototype.preloadNeighboringImages = function () {
+		if (this.options.images.length > this.currentImageIndex + 1) {
+			var preloadNext = new Image();
+			preloadNext.src = this.options.images[this.currentImageIndex + 1];
+		}
+		if (this.currentImageIndex > 0) {
+			var preloadPrev = new Image();
+			preloadPrev.src = this.options.images[this.currentImageIndex - 1];
+		}
 	};
 
 	Darkbox.prototype.enableKeyboardNav = function () {

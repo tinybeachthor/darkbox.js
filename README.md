@@ -1,8 +1,6 @@
 # darkbox.js
 
-Weights just ⚖**1.65kb Gzipped**
-
-##
+Weights just ⚖**1.74kb Gzipped**
 
 An updated, minimal version of the [lighbox2](http://lokeshdhakar.com/projects/lightbox2/) script.
 
