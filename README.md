@@ -39,16 +39,11 @@ img {
 ```javascript
 $(document).ready(function () {
 
-  $('#gallery').click(function() 
-  {
-    $(this).darkbox(
-      {
-        images: [
-          "./assets/image.jpg",
-          "./assets/image2.jpg",
-        ]
-      }
-    );
+  $('#gallery').click(function() {
+    $(this).darkbox([
+      "./assets/image.jpg",
+      "./assets/image2.jpg",
+    ]);
   });
 
 });

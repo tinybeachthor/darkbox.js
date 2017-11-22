@@ -55,8 +55,8 @@
 			$(elems).appendTo($('body'));
 		};
 
-		DarkboxBuilder.prototype.start = function ($elem, options) {
-			return new Darkbox($elem, options);
+		DarkboxBuilder.prototype.start = function ($elem, images, options) {
+			return new Darkbox($elem, images, options);
 		};
 
 		$(document).ready(() => {
@@ -67,10 +67,13 @@
 	//////////////////////////////////
 	//DARKBOX INSTANCE OBJECT
 
-	function Darkbox($elem, options) {
+	function Darkbox($elem, images, options) {
 		//set options
 		this.options = $.extend({}, this.constructor.defaults);
 		this.setOptions(options);
+
+		//get images
+		this.images = images;
 
 		// Cache jQuery objects
 		this.$overlay = $('#darkboxOverlay');
@@ -89,18 +92,18 @@
 		if(this.options.startWithCurrent) {
 			let current = $elem.attr('src');
 
-			if(!Array.isArray(this.options.images)) {
-				this.options.images = [];
+			if(!Array.isArray(this.images)) {
+				this.images = [];
 			}
-			if(this.options.images.length == 0 || current !== this.options.images[0]) {
+			if(this.images.length == 0 || current !== this.images[0]) {
 				let i = 0;
-				for(let image in this.options.images) {
+				for(let image in this.images) {
 					if(image == current) {
-						this.options.images.splice(i, 1);
+						this.images.splice(i, 1);
 					}
 					i++;
 				}
-				this.options.images.unshift(current);
+				this.images.unshift(current);
 			}
 		}
 
@@ -108,13 +111,11 @@
 		this.preloadNeighboringImages();
 
 		//start on element
-		if(this.options.images.length > 0)
+		if(this.images.length > 0)
 			this.start($elem);
 	}
 
 	Darkbox.defaults = {
-		images: [],
-
 		disablePageScrolling: true,
 		startWithCurrent: true,
 		wrapAround: false,
@@ -138,7 +139,7 @@
 		//clone element to darkbox and set the same position as the original
 		let node = $link.clone(false);
 
-		$(node).attr('src', this.options.images[0]);
+		$(node).attr('src', this.images[0]);
 		
 		$(node).css('position', 'absolute');
 		
@@ -157,17 +158,17 @@
 		this.$overlay.addClass('show');
 		this.$overlay.addClass('fill');
 
-		if(this.options.images.length > 1) {
+		if(this.images.length > 1) {
 			this.$darkboxLeft.show();
 			this.$darkboxRight.show();
 		}
 		this.$darkboxCancel.show();
 		this.$darkboxTitle.show();
 
-		$(this.$darkboxTitleText).text('Image ' + (this.currentImageIndex + 1) + ' of ' + this.options.images.length);
+		$(this.$darkboxTitleText).text('Image ' + (this.currentImageIndex + 1) + ' of ' + this.images.length);
 
 		setTimeout(() => {
-			if (this.options.images.length > 1) {
+			if (this.images.length > 1) {
 				this.$darkboxLeft.addClass('show');
 				this.$darkboxRight.addClass('show');
 			}
@@ -208,14 +209,14 @@
 	Darkbox.prototype.previousImage = function () {
 		if (this.currentImageIndex !== 0) {
 			this.changeImage(this.currentImageIndex - 1);
-		} else if (this.options.wrapAround && this.options.images.length > 1) {
-			this.changeImage(this.options.images.length - 1);
+		} else if (this.options.wrapAround && this.images.length > 1) {
+			this.changeImage(this.images.length - 1);
 		}
 	};
 	Darkbox.prototype.nextImage = function () {
-		if (this.currentImageIndex !== this.options.images.length - 1) {
+		if (this.currentImageIndex !== this.images.length - 1) {
 			this.changeImage(this.currentImageIndex + 1);
-		} else if (this.options.wrapAround && this.options.images.length > 1) {
+		} else if (this.options.wrapAround && this.images.length > 1) {
 			this.changeImage(0);
 		}
 	};
@@ -223,20 +224,20 @@
 		this.currentImageIndex = index;
 		this.preloadNeighboringImages();
 
-		$(this.$darkboxTitleText).text('Image ' + (index + 1) + ' of ' + this.options.images.length);
+		$(this.$darkboxTitleText).text('Image ' + (index + 1) + ' of ' + this.images.length);
 
-		$(this.$clonnedNode).attr('src', this.options.images[index]);
+		$(this.$clonnedNode).attr('src', this.images[index]);
 	};
 
 	// Preload previous and next images in set.
 	Darkbox.prototype.preloadNeighboringImages = function () {
-		if (this.options.images.length > this.currentImageIndex + 1) {
+		if (this.images.length > this.currentImageIndex + 1) {
 			var preloadNext = new Image();
-			preloadNext.src = this.options.images[this.currentImageIndex + 1];
+			preloadNext.src = this.images[this.currentImageIndex + 1];
 		}
 		if (this.currentImageIndex > 0) {
 			var preloadPrev = new Image();
-			preloadPrev.src = this.options.images[this.currentImageIndex - 1];
+			preloadPrev.src = this.images[this.currentImageIndex - 1];
 		}
 	};
 
@@ -315,8 +316,8 @@
 	};
 
 	const dbBuilder = new DarkboxBuilder();
-	$.fn.darkbox = function (options) {
-		dbBuilder.start(this, options);
+	$.fn.darkbox = function (images, options) {
+		dbBuilder.start(this, images, options);
 	};
 	return dbBuilder;
 }));
