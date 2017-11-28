@@ -233,13 +233,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 	};
 	Darkbox.prototype.changeImage = function (index) {
+		var _this3 = this;
+
+		if (this.disabledControls) return;
+		this.disabledControls = true;
+
 		this.currentImageIndex = index;
+
 		this.preloadNeighboringImages();
 		this.setProgress();
 
 		$(this.$darkboxTitleText).text('Image ' + (index + 1) + ' of ' + this.images.length);
 
-		$(this.$clonnedNode).attr('src', this.images[index]);
+		//set next image
+		var preload = new Image();
+		preload.onload = function () {
+			$(_this3.$clonnedNode).attr('src', preload.src);
+			_this3.disabledControls = false;
+		};
+		preload.src = this.images[index];
 	};
 
 	// Preload previous and next images in set.
@@ -277,7 +289,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	Darkbox.prototype.end = function () {
-		var _this3 = this;
+		var _this4 = this;
 
 		//disable keyboard hook
 		this.disableKeyboardNav();
@@ -298,19 +310,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		$(this.$clonnedNode).animate({
 			opacity: 0.0
 		}, 300, 'swing', function () {
-			_this3.$darkbox.hide();
+			_this4.$darkbox.hide();
 
-			_this3.$darkboxLeft.hide();
-			_this3.$darkboxRight.hide();
+			_this4.$darkboxLeft.hide();
+			_this4.$darkboxRight.hide();
 
-			_this3.$darkboxCancel.hide();
+			_this4.$darkboxCancel.hide();
 
-			_this3.$darkboxTitle.hide();
+			_this4.$darkboxTitle.hide();
 		});
 
 		this.$overlay.removeClass('fill');
 		setTimeout(function () {
-			_this3.$overlay.removeClass('show');
+			_this4.$overlay.removeClass('show');
 
 			//hide animation finished
 
@@ -321,7 +333,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var endCallback = this.options.endCallback;
 		if (endCallback && endCallback != null && typeof endCallback === 'function') {
 			setTimeout(function () {
-				_this3.options.endCallback();
+				_this4.options.endCallback();
 			}, 200);
 		}
 	};

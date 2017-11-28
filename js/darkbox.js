@@ -242,13 +242,24 @@
 		}
 	};
 	Darkbox.prototype.changeImage = function (index) {
+		if (this.disabledControls)
+			return;
+		this.disabledControls = true;
+
 		this.currentImageIndex = index;
+
 		this.preloadNeighboringImages();
 		this.setProgress();
 
 		$(this.$darkboxTitleText).text('Image ' + (index + 1) + ' of ' + this.images.length);
 
-		$(this.$clonnedNode).attr('src', this.images[index]);
+		//set next image
+		const preload = new Image();
+		preload.onload = () => {
+			$(this.$clonnedNode).attr('src', preload.src);
+			this.disabledControls = false;
+		};
+		preload.src = this.images[index];
 	};
 
 	// Preload previous and next images in set.
